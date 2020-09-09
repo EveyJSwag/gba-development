@@ -20,7 +20,7 @@ $(info $(TITLE))
 SOURCE_DIR := source
 TOOLS_DIR := tools
 SPECS	:= -specs=gba.specs
-COBJS := $(SOURCE_DIR)/sprite_test.o $(TOOLS_DIR)/input.o $(TOOLS_DIR)/mem_util.o
+COBJS := $(SOURCE_DIR)/sprite_test.o $(TOOLS_DIR)/input.o $(TOOLS_DIR)/mem_util.o $(TOOLS_DIR)/game_properties.o $(TOOLS_DIR)/game_characters.o
 OBJS := $(COBJS)
 
 #########################

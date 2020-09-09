@@ -1,5 +1,7 @@
-#define __INPUT__
 #ifndef __INPUT__
+#define __INPUT__
+
+#include "mem_util.h"
 
 #define MEM_IO_KEY  0x04000000
 #define REG_KEYINPUT *(volatile u16*)(MEM_IO_KEY + 0x0130)
@@ -9,6 +11,8 @@
 0    3    F    F
 */
 extern  u16 key_curr, key_prev;
+u16 key_curr = 0;
+u16 key_prev = 0;
 INLINE void setState();
 
 #define KEY_MASK    0x03FF
@@ -32,7 +36,7 @@ INLINE void setState (){
 INLINE u32 key_curr_press   (u32 key) { return  key_curr & key; }
 INLINE u32 key_curr_lift    (u32 key) { return ~key_curr & key; }
 INLINE u32 key_prev_press   (u32 key) { return  key_prev & key; }
-INLINE u32 key_curr_lift    (u32 key) { return ~key_prev & key; }
+INLINE u32 key_prev_lift    (u32 key) { return ~key_prev & key; }
 
 
 #endif

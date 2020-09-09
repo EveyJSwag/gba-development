@@ -247,12 +247,14 @@ INLINE void vsync(){
 ////////////////////
 // KEYPAD SECTION //
 ////////////////////
-#define REG_KEYINPUT *(volatile u16*)(MEM_IO + 0x0130)
+
+//#define REG_KEYINPUT *(volatile u16*)(MEM_IO + 0x0130)
 
 /*
 ---- --xx xxxx xxxx
 0    3    F    F
 */
+/*
 extern  u16 __key_curr, __key_prev;
 u16 __key_curr = 0;
 u16 __key_prev = 0;
@@ -281,4 +283,6 @@ INLINE u32 key_curr_lift    (u32 key) { return ~__key_curr & key; }
 INLINE u32 key_prev_press   (u32 key) { return  __key_prev & key; }
 INLINE u32 key_prev_lift    (u32 key) { return ~__key_prev & key; }
 
+#endif
+*/
 #endif
