@@ -9,35 +9,13 @@ int main()
 {
 
 
-/*
-    PLAYER player1;
-
-    u32 testPic[16] = {
-    0x53535353,
-    0x53535353,
-    0x53535353,
-    0x53535353,
-    0x53535353,
-    0x53535353,
-    0x53535353,
-    0x53535353,
-    0x83838383,
-    0x83838383,
-    0x83838383,
-    0x83838383,
-    0x83838383,
-    0x83838383,
-    0x83838383,
-    0x83838383
-    };
-*/
     REG_DISPCNT = 0x1000 | 0x0040;
 
     ///////////////////////////////////////
     // PUT SOME COLORS INTO THE PALLETTE //
     ///////////////////////////////////////
     obj_pal_mem[0] = MAKE_COLOR(0,14,0);
-    obj_pal_mem[1] = CLR_BLUE;
+    obj_pal_mem[1] = CLR_RED;
     obj_pal_mem[2] = CLR_TEAL;
     obj_pal_mem[3] = CLR_GREEN;
     obj_pal_mem[4] = CLR_WHITE;
@@ -51,39 +29,62 @@ int main()
     //////////////////////////////////////
     // COPY SOME SAMPLE TILES INTO VRAM //
     //////////////////////////////////////
-    //memcpy(&tile_mem[5][0], testPic, 32);
     memcpy(&tile_mem[5][0], BALL, 32);
-    memcpy(&tile_mem[6][0], PONG_STICK_VID, 64);
+    memcpy(&tile_mem[5][1], PONG_STICK_VID, 64);
 
-/*
-    ///////////////////////////////////////
-    // SET THE INITIAL PLAYER ATTRIBUTES //
-    ///////////////////////////////////////
-    player1.playerPos.POS_X = 20;
-    player1.playerPos.POS_Y = 20;
 
-    ///////////////////////////////////////////////
-    // SET THE INITIAL ATTRIBUTES FOR THE SPRITE //
-    ///////////////////////////////////////////////
-    OBJ_ATTR blkOneAttr;
-    blkOneAttr.attr0 = 20; // INITIAL Y POS
-    blkOneAttr.attr1 = 20; // INITIAL X POS
-    blkOneAttr.attr2 = 1 << 9;
-    oam_mem[0] = blkOneAttr;
-*/
-    while(1){
+    //////////////
+    // PLAYER 1 //
+    //////////////
+    PLAYER player1;
+    player1.playerPos.POS_X = 0;
+    player1.playerPos.POS_Y = 0;
+    player1.height = 16;
+    player1.width  =  3;
+
+    OBJ_ATTR PONG_STICK_ATTR;
+    PONG_STICK_ATTR.attr0 = (2 << 14);
+    PONG_STICK_ATTR.attr1 = 0;
+    PONG_STICK_ATTR.attr2 = 513;
+    oam_mem[0] = PONG_STICK_ATTR;
+    short yValue = 0;
+
+    //////////
+    // BALL //
+    //////////
+    PLAYER ball;
+    ball.playerPos.POS_X = SCREEN_WIDTH/2;
+    ball.playerPos.POS_Y = SCREEN_LENGTH/2;
+    ball.playerVector.SPEED_X = 3;
+    ball.playerVector.SPEED_Y = -6;
+    ball.height = 8;
+    ball.width = 8;
+    OBJ_ATTR BALL_ATTR;
+    BALL_ATTR.attr0 = 0;
+    BALL_ATTR.attr1 = 0;
+    BALL_ATTR.attr2 = 512;
+    changePosAttr(&BALL_ATTR, ball.playerPos.POS_X, ball.playerPos.POS_Y, 1);
+
+
+    while(1)
+    {
         vsync();
-        /*       // VSYNC TO PREVENT TEARING
-        setState();     // READ KEY INPUTS
+        setState();
         if (key_curr_press(KEY_DOWN))
-            changePos(&player1, 0, 2, &blkOneAttr);
-        if (key_curr_press(KEY_RIGHT))
-            changePos(&player1, 2, 0, &blkOneAttr);
+            yValue = 2;
         if (key_curr_press(KEY_UP))
-            changePos(&player1, 0, -2, &blkOneAttr);
-        if (key_curr_press(KEY_LEFT))
-            changePos(&player1, -2, 0, &blkOneAttr);
-        */
+            yValue = -2;
+
+        if ( (ball.playerPos.POS_X + ball.playerVector.SPEED_X) >= (SCREEN_WIDTH - ball.width) )
+            ball.playerVector.SPEED_X *= -1;
+
+        if ( (ball.playerPos.POS_Y + ball.playerVector.SPEED_Y) >= (SCREEN_LENGTH - ball.height) )
+            ball.playerVector.SPEED_Y *= -1;
+
+
+        changePos(&player1, &PONG_STICK_ATTR, 0, yValue, 0);
+        changePos(&ball,    &BALL_ATTR, ball.playerVector.SPEED_X, ball.playerVector.SPEED_Y, 1);
+        yValue = 0;
     }
     return 0;
 }

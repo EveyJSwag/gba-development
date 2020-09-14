@@ -6,6 +6,13 @@
 #ifndef MEM_UTIL_H
 #define MEM_UTIL_H
 
+
+///////////////////////
+// SCREEN DIMENSIONS //
+///////////////////////
+#define SCREEN_WIDTH  240
+#define SCREEN_LENGTH 160
+
 ////////////////////
 // TYPEDEF/MACROS //
 ////////////////////
@@ -242,47 +249,5 @@ INLINE void vsync(){
     while(vcount_num >= 160);
     while(vcount_num < 160);
 }
-//static void vsync();
 
-////////////////////
-// KEYPAD SECTION //
-////////////////////
-
-//#define REG_KEYINPUT *(volatile u16*)(MEM_IO + 0x0130)
-
-/*
----- --xx xxxx xxxx
-0    3    F    F
-*/
-/*
-extern  u16 __key_curr, __key_prev;
-u16 __key_curr = 0;
-u16 __key_prev = 0;
-INLINE void setState();
-
-#define KEY_MASK    0x03FF
-#define KEY_A       1
-#define KEY_B       2
-#define KEY_SELECT  4
-#define KEY_START   8
-#define KEY_RIGHT   16
-#define KEY_LEFT    32
-#define KEY_UP      64
-#define KEY_DOWN    128
-#define KEY_R       256
-#define KEY_L       512
-
-
-INLINE void setState (){
-    __key_prev = __key_curr;
-    __key_curr = (~(REG_KEYINPUT)) & (KEY_MASK);
-}
-
-INLINE u32 key_curr_press   (u32 key) { return  __key_curr & key; }
-INLINE u32 key_curr_lift    (u32 key) { return ~__key_curr & key; }
-INLINE u32 key_prev_press   (u32 key) { return  __key_prev & key; }
-INLINE u32 key_prev_lift    (u32 key) { return ~__key_prev & key; }
-
-#endif
-*/
 #endif
