@@ -28,9 +28,15 @@ typedef struct PLAYER
 #define LOWER_BOUND_Y 124
 #define UPPER_BOUND_Y 0
 
-void changePos ( PLAYER* player, OBJ_ATTR* objAttr, int speed_x, int speed_y, int attrIndex);
+void changePos  ( PLAYER* player, OBJ_ATTR* objAttr, int speed_x, int speed_y, int attrIndex);
+
+void hideSprite ( OBJ_ATTR* objAttr, int index);
+
 void updateAttr (OBJ_ATTR* objAttr, u16 xPos, u16 yPos);
 
 void changePosAttr(OBJ_ATTR* objAttr, u16 x, u16 y, int attrIndex);
+
+
+
 
 #endif

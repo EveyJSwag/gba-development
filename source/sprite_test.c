@@ -55,8 +55,8 @@ int main()
     PLAYER ball;
     ball.playerPos.POS_X = SCREEN_WIDTH/2;
     ball.playerPos.POS_Y = SCREEN_LENGTH/2;
-    ball.playerVector.SPEED_X = 3;
-    ball.playerVector.SPEED_Y = -6;
+    ball.playerVector.SPEED_X = 1;
+    ball.playerVector.SPEED_Y = 3;
     ball.height = 8;
     ball.width = 8;
     OBJ_ATTR BALL_ATTR;
@@ -75,11 +75,35 @@ int main()
         if (key_curr_press(KEY_UP))
             yValue = -2;
 
-        if ( (ball.playerPos.POS_X + ball.playerVector.SPEED_X) >= (SCREEN_WIDTH - ball.width) )
+
+
+
+        if ( (ball.playerPos.POS_Y + ball.height) == (SCREEN_LENGTH) || (ball.playerPos.POS_Y == 0))
+            ball.playerVector.SPEED_Y *= -1;
+
+        if ( (ball.playerPos.POS_X + ball.width) == (SCREEN_WIDTH) )
             ball.playerVector.SPEED_X *= -1;
 
-        if ( (ball.playerPos.POS_Y + ball.playerVector.SPEED_Y) >= (SCREEN_LENGTH - ball.height) )
-            ball.playerVector.SPEED_Y *= -1;
+        else if ( ball.playerPos.POS_X == 0 ) {
+            ball.playerVector.SPEED_X = 0;
+            ball.playerVector.SPEED_Y = 0;
+            hideSprite(&BALL_ATTR, 1);
+        }
+
+        int yDiff = player1.playerPos.POS_Y - ball.playerPos.POS_Y;
+        int halfFlag = 1;
+        if (yDiff < 0)
+        {
+            yDiff *= -1;
+            halfFlag *= -1;
+        }
+        if ( (player1.playerPos.POS_X + player1.width) == (ball.playerPos.POS_X) &&
+             (yDiff) < player1.height )
+        {
+            ball.playerVector.SPEED_X *= -1;
+            ball.playerVector.SPEED_Y *= (-1 * halfFlag);
+        }
+
 
 
         changePos(&player1, &PONG_STICK_ATTR, 0, yValue, 0);

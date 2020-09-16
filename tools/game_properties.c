@@ -31,6 +31,13 @@ void updateAttr (OBJ_ATTR* objAttr, u16 xPos, u16 yPos)
 }
 
 
+
+void hideSprite ( OBJ_ATTR* objAttr, int index ){
+    objAttr->attr0 |= (2 << 8);
+    oam_mem[index] = *objAttr;
+}
+
+
 void changePosAttr(OBJ_ATTR* objAttr, u16 x, u16 y, int attrIndex)
 {
     u16 a0 = objAttr->attr0; u16 a1 = objAttr->attr1;
